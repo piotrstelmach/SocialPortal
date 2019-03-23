@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final TextView emailTextView = findViewById(R.id.EmailTV);
         final TextView passwordTextView = findViewById(R.id.PasswordTV);
+        TextView SignInTextView=findViewById(R.id.SignInTextView);
 
         Button loginButton = findViewById(R.id.LoginBtn);
 
@@ -89,11 +90,24 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
+        SignInTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoToSignInActivity();
+            }
+        });
+
+
 
     }
 
     public void GoToMainActivity(){
         Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void GoToSignInActivity(){
+        Intent intent = new Intent(this,SignIn.class);
         startActivity(intent);
     }
 

@@ -4,6 +4,7 @@ import com.stelmach.piotr.socialportal.Models.AuthData;
 import com.stelmach.piotr.socialportal.Models.CurrentUser;
 import com.stelmach.piotr.socialportal.Models.LoginModel;
 import com.stelmach.piotr.socialportal.Models.PortalUser;
+import com.stelmach.piotr.socialportal.Models.SignInModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -22,7 +23,7 @@ public interface SocialPortalUser {
 
     @Headers("Content-Type: application/json")
     @POST("api/users/register")
-    Call<PortalUser> RegisterNewUser(@Body String SignInUser);
+    Call<PortalUser> RegisterNewUser(@Body SignInModel SignInUser);
 
     @GET("api/users/current")
     Call<CurrentUser> GetCurrentUser(@Header("Authorization") String token);
