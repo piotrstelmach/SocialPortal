@@ -1,11 +1,15 @@
 package com.stelmach.piotr.socialportal;
 
 import android.content.Context;
+import android.R;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +28,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
+
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(SocialPortalUser.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -38,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        mDrawerLayout=findViewById(R.id.drawerLayout);
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.close,R.string.open);
+        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
+        mActionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -87,4 +101,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(mActionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -1,6 +1,7 @@
 package com.stelmach.piotr.socialportal;
 
 import android.content.Context;
+import android.R;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;

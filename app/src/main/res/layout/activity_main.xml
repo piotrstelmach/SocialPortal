@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerLayout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/tokenTextView"
+    <android.support.design.widget.NavigationView
+        app:headerLayout="@layout/header"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Token"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="176dp" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_height="match_parent"
+        app:menu="@menu/drawermenu"
+        android:layout_gravity="start">
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>
