@@ -1,7 +1,7 @@
 package com.stelmach.piotr.socialportal;
 
 import android.content.Context;
-import android.R;
+
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
@@ -10,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.stelmach.piotr.socialportal.Api.PostsInterface;
 import com.stelmach.piotr.socialportal.Api.SocialPortalUser;
@@ -19,6 +21,7 @@ import com.stelmach.piotr.socialportal.Models.CurrentUser;
 import com.stelmach.piotr.socialportal.Models.Post;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,15 +48,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        mDrawerLayout=findViewById(R.id.drawerLayout);
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.close,R.string.open);
-        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
-        mActionBarDrawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        mDrawerLayout= findViewById(R.id.drawer);
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.close,R.string.open);
+        if(mDrawerLayout!=null) {
+            mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
+        }
+        mActionBarDrawerToggle.syncState();
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+
 
         //final TextView token =findViewById(R.id.tokenTextView);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
