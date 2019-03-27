@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.stelmach.piotr.socialportal.Api.PostsInterface;
@@ -32,10 +34,9 @@ public class PostsFragment extends Fragment {
 
     PostsInterface postsInterface=retrofit.create(PostsInterface.class);
 
-    List<Post> postList;
-
     Context fragmentContext;
 
+    ListView listView;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,10 +54,13 @@ public class PostsFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 Log.d("RETROFIT IN FRAGMENT",response.message());
-                if(response.code()==400 || response.code()==401){
+                if(response.isSuccessful()){
+                    setListViewResources(response.body());
+
+                }else{
                     Toast.makeText(fragmentContext,"Unathorized",Toast.LENGTH_LONG);
                 }
-                postList=response.body();
+
             }
 
             @Override
@@ -64,5 +68,11 @@ public class PostsFragment extends Fragment {
                 Log.d("RETROFIT",t.getLocalizedMessage());
             }
         });
+    }
+
+    private void setListViewResources(List<Post> postList) {
+        listView=getView().findViewById(R.id.postsListView);
+        PostListAdapter adapter=new PostListAdapter(fragmentContext,R.layout.adapter_posts_list_layout,postList);
+        listView.setAdapter(adapter);
     }
 }

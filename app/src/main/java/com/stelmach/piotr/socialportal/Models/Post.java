@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Post {
+
+
+
     @SerializedName("_id")
     @Expose
     private String id;

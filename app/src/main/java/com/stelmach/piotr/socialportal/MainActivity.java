@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SocialPortalUser socialPortalUser = retrofit.create(SocialPortalUser.class);
 
 
-    CurrentUser currentUser;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mDrawerLayout= findViewById(R.id.drawer);
 
-
         Objects.requireNonNull(getSupportActionBar()).setTitle("Social App");
-
-
-
 
         NavigationView navigationView=findViewById(R.id.mainNavView);
         navigationView.setNavigationItemSelectedListener(this);
@@ -75,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new PostsFragment()).commit();
             navigationView.setCheckedItem(R.id.postsDrawerBtn);
         }
-
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -99,13 +92,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .show();
 
                 }
-
-                //Log.d("RETROFIT",currentUser.toString());
             }
 
             @Override
             public void onFailure(Call<CurrentUser> call, Throwable t) {
                 Log.d("RETROFIT",t.getLocalizedMessage());
+                Toast.makeText(MainActivity.this,"Cannot connect try again",Toast.LENGTH_LONG)
+                        .show();
             }
         });
 
@@ -161,8 +154,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void setCurrentUser(CurrentUser user){
-        currentUser=user;
-    }
 
 }

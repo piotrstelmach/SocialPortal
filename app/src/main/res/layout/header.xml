@@ -7,16 +7,16 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/avatarImageView"
-        android:src="@drawable/ic_my_profile"
         android:layout_width="80dp"
-        android:layout_height="80dp" />
+        android:layout_height="80dp"
+        android:src="@drawable/ic_my_profile" />
+
     <TextView
         android:id="@+id/usernameTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="82dp"
         android:layout_height="wrap_content"
         android:text="Name"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
 </LinearLayout>
