@@ -11,8 +11,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.stelmach.piotr.socialportal.Api.PostsInterface;
 import com.stelmach.piotr.socialportal.Api.SocialPortalUser;
 import com.stelmach.piotr.socialportal.Models.CurrentUser;
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
+    private ImageView mAvatarImageView;
+    private TextView mNameTextView;
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(SocialPortalUser.BASE_URL)
@@ -46,10 +51,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mDrawerLayout= findViewById(R.id.drawer);
+
+
         Objects.requireNonNull(getSupportActionBar()).setTitle("Social App");
 
 
-        mDrawerLayout= findViewById(R.id.drawer);
+
 
         NavigationView navigationView=findViewById(R.id.mainNavView);
         navigationView.setNavigationItemSelectedListener(this);
@@ -71,18 +80,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         String userToken=sharedPref.getString("Token","Alternative");
+        Log.d("LOAD_TOKEN",userToken);
 
-
-        Call<CurrentUser> currentUserCall=socialPortalUser.GetCurrentUser(userToken);
+        final Call<CurrentUser> currentUserCall=socialPortalUser.GetCurrentUser(userToken);
 
         currentUserCall.enqueue(new Callback<CurrentUser>() {
             @Override
             public void onResponse(Call<CurrentUser> call, Response<CurrentUser> response) {
                 Log.d("RETROFIT",response.message());
-                if(response.code()==400 || response.code()==401){
-                    Toast.makeText(MainActivity.this,"Unathorized",Toast.LENGTH_LONG);
+                Log.d("RETROFIT",response.body().toString());
+
+                if(response.isSuccessful()){
+
+                    setCurrentUserData(response.body());
+
+                }else{
+                    Toast.makeText(MainActivity.this,"Unathorized",Toast.LENGTH_LONG)
+                            .show();
+
                 }
-                currentUser=response.body();
+
+                //Log.d("RETROFIT",currentUser.toString());
             }
 
             @Override
@@ -92,7 +110,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
+
     }
+
+    private void setCurrentUserData(CurrentUser user){
+        mAvatarImageView=findViewById(R.id.avatarImageView);
+        mNameTextView=findViewById(R.id.usernameTextView);
+        String avatarNormal=user.getAvatar().substring(2);
+        Log.d("SETDATA", "setCurrentUserData: "+ avatarNormal);
+        Picasso.get().load("http://"+avatarNormal).into(mAvatarImageView);
+        mNameTextView.setText(user.getName());
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -130,4 +160,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
+
+    public void setCurrentUser(CurrentUser user){
+        currentUser=user;
+    }
+
 }
