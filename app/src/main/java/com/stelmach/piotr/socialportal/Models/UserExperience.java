@@ -25,7 +25,7 @@ public class UserExperience {
     private String from;
     @SerializedName("to")
     @Expose
-    private Object to;
+    private String to;
     @SerializedName("description")
     @Expose
     private String description;
@@ -78,11 +78,11 @@ public class UserExperience {
         this.from = from;
     }
 
-    public Object getTo() {
+    public String getTo() {
         return to;
     }
 
-    public void setTo(Object to) {
+    public void setTo(String to) {
         this.to = to;
     }
 
