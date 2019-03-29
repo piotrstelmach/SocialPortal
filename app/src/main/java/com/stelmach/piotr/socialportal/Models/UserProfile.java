@@ -139,4 +139,22 @@ public class UserProfile {
     public void setV(Integer v) {
         this.v = v;
     }
+
+    @Override
+    public String toString() {
+        return "UserProfile{" +
+                "skills=" + skills +
+                ", id='" + id + '\'' +
+                ", user=" + user +
+                ", handle='" + handle + '\'' +
+                ", company='" + company + '\'' +
+                ", website='" + website + '\'' +
+                ", location='" + location + '\'' +
+                ", status='" + status + '\'' +
+                ", experience=" + experience +
+                ", education=" + education +
+                ", date='" + date + '\'' +
+                ", v=" + v +
+                '}';
+    }
 }
