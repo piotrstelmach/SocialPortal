@@ -61,7 +61,7 @@ public class SearchFragment extends Fragment {
         menu.clear();
         inflater.inflate(R.menu.search_bar_menu,menu);
         MenuItem menuItem=menu.findItem(R.id.searchProfile);
-        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        //menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         SearchView searchView= (SearchView) menuItem.getActionView();
 
