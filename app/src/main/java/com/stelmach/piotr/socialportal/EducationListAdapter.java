@@ -32,7 +32,7 @@ public class EducationListAdapter extends ArrayAdapter<UserEducation> {
         String deegree=getItem(position).getDegree();
         String from=getItem(position).getFrom();
         String to=getItem(position).getTo();
-        int current=getItem(position).getCurrent();
+        Boolean current=getItem(position).getCurrent();
 
         LayoutInflater inflater=LayoutInflater.from(mContext);
         convertView=inflater.inflate(mResource,parent,false);
@@ -48,7 +48,7 @@ public class EducationListAdapter extends ArrayAdapter<UserEducation> {
         deegreeTextView.setText(deegree);
         fromTextView.setText(from);
         toTextView.setText(to);
-        if(current==0) currentTextView.setText("no");
+        if(current==false) currentTextView.setText("no");
         else currentTextView.setText("yes");
 
         return convertView;

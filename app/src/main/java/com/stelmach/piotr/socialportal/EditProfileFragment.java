@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.stelmach.piotr.socialportal.Api.SocialPortalProfile;
 import com.stelmach.piotr.socialportal.Api.SocialPortalUser;
+import com.stelmach.piotr.socialportal.Models.PostUserProfile;
+import com.stelmach.piotr.socialportal.Models.UserEducation;
 import com.stelmach.piotr.socialportal.Models.UserProfile;
 
 import org.w3c.dom.Text;
@@ -32,7 +34,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class EditProfileFragment extends Fragment {
+public class EditProfileFragment extends Fragment implements AddEducationDialog.AddEducationDialogListener {
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(SocialPortalUser.BASE_URL)
@@ -42,6 +44,8 @@ public class EditProfileFragment extends Fragment {
     SocialPortalProfile socialPortalProfile = retrofit.create(SocialPortalProfile.class);
 
     Context fragmentContext;
+
+    String userID;
 
     ListView mEduEditListView;
     ListView mExpEditListView;
@@ -60,6 +64,11 @@ public class EditProfileFragment extends Fragment {
     ImageView mAddEducationImageView;
     ImageView mAddExperienceImageView;
 
+    String userToken;
+
+    EducationEditListAdapter educationListAdapter;
+    ExperienceEditListAdapter experienceListAdapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,7 +82,7 @@ public class EditProfileFragment extends Fragment {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        String userToken = sharedPref.getString("Token", "Alternative");
+        userToken = sharedPref.getString("Token", "Alternative");
         Log.d("LOAD_TOKEN", userToken);
 
         Call<UserProfile> userProfileCall = socialPortalProfile.getCurrentUserProfile(userToken);
@@ -125,6 +134,8 @@ public class EditProfileFragment extends Fragment {
 
     private void setBasicProfileData(UserProfile userProfile) {
 
+        userID=userProfile.getUser().getId();
+
         mEduEditListView = getView().findViewById(R.id.edu1EditListView);
         mExpEditListView = getView().findViewById(R.id.exp1EditListView);
 
@@ -161,22 +172,65 @@ public class EditProfileFragment extends Fragment {
             mProfileSkillsTv.setText(skll);
         }
 
-        EducationEditListAdapter educationListAdapter = new EducationEditListAdapter(getContext(),
+         educationListAdapter= new EducationEditListAdapter(getContext(),
                R.layout.adapter_edu_edit_list_layout, userProfile.getEducation());
-        ExperienceEditListAdapter experienceListAdapter = new ExperienceEditListAdapter(getContext(),
+        experienceListAdapter = new ExperienceEditListAdapter(getContext(),
                 R.layout.adapter_exp_edit_list_layout, userProfile.getExperience());
 
         mEduEditListView.setAdapter(educationListAdapter);
         mExpEditListView.setAdapter(experienceListAdapter);
 
+
+
     }
 
     private void addNewEducation(){
+        AddEducationDialog addEducationDialog=new AddEducationDialog();
+        addEducationDialog.setTargetFragment(EditProfileFragment.this,1);
+        addEducationDialog.show(getFragmentManager(),"Add education");
 
     }
 
     private void addNewExperience(){
 
+    }
+
+    @Override
+    public void applyEduData(String school, String deegree, String fieldOfStudy, String dateFrom, String dateTo, Boolean current, String description) {
+        UserEducation userEducation=new UserEducation(school,deegree,fieldOfStudy,dateFrom,dateTo,
+                current,description);
+
+        Log.d("DATA_FROM_DIALOG", "applyEduData: "+userEducation.toString());
+
+        addEdu(userEducation);
+
+
+    }
+
+    private void addEdu(UserEducation userEducation){
+        Call<PostUserProfile> callUserProfile=socialPortalProfile.addEducationToUserProfile(userToken,userEducation);
+
+        callUserProfile.enqueue(new Callback<PostUserProfile>() {
+            @Override
+            public void onResponse(Call<PostUserProfile> call, Response<PostUserProfile> response) {
+                if(response.isSuccessful()){
+                    Log.d("DATA_FROM_DIALOG", "getting edu: "+response.body().getEducation().toString());
+                    educationListAdapter.clear();
+                    educationListAdapter.addAll(response.body().getEducation());
+                }
+                Log.d("DATA_FROM_DIALOG", "getting code: "+response.code());
+            }
+
+            @Override
+            public void onFailure(Call<PostUserProfile> call, Throwable t) {
+                Toast.makeText(getContext(),"Failed to add. Try again later or" +
+                        "check internet connection.",Toast.LENGTH_LONG).show();
+
+                Log.d("DATA_FROM_DIALOG",t.getLocalizedMessage());
+                Log.d("DATA_FROM_DIALOG",t.getMessage());
+
+            }
+        });
     }
 }
 

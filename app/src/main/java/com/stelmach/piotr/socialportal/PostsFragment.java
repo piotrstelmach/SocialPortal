@@ -58,7 +58,7 @@ public class PostsFragment extends Fragment {
                     setListViewResources(response.body());
 
                 }else{
-                    Toast.makeText(fragmentContext,"Unathorized",Toast.LENGTH_LONG);
+                    Toast.makeText(fragmentContext,"Unathorized",Toast.LENGTH_LONG).show();
                 }
 
             }

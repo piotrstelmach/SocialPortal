@@ -11,7 +11,7 @@ public class UserEducation {
     @SerializedName("degree")
     @Expose
     private String degree;
-    @SerializedName("fieldOfStudy")
+    @SerializedName("fieldofstudy")
     @Expose
     private String fieldOfStudy;
     @SerializedName("from")
@@ -22,7 +22,7 @@ public class UserEducation {
     private String to;
     @SerializedName("current")
     @Expose
-    private Integer current;
+    private Boolean current;
     @SerializedName("description")
     @Expose
     private String description;
@@ -67,11 +67,11 @@ public class UserEducation {
         this.to = to;
     }
 
-    public Integer getCurrent() {
+    public Boolean getCurrent() {
         return current;
     }
 
-    public void setCurrent(Integer current) {
+    public void setCurrent(Boolean current) {
         this.current = current;
     }
 
@@ -83,4 +83,26 @@ public class UserEducation {
         this.description = description;
     }
 
+    public UserEducation(String school, String degree, String fieldOfStudy, String from, String to, Boolean current, String description) {
+        this.school = school;
+        this.degree = degree;
+        this.fieldOfStudy = fieldOfStudy;
+        this.from = from;
+        this.to = to;
+        this.current = current;
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEducation{" +
+                "school='" + school + '\'' +
+                ", degree='" + degree + '\'' +
+                ", fieldOfStudy='" + fieldOfStudy + '\'' +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", current=" + current +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

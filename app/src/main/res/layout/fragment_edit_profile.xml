@@ -110,7 +110,7 @@
         <ListView
             android:id="@+id/edu1EditListView"
             android:layout_width="380dp"
-            android:layout_height="67dp"
+            android:layout_height="69dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="132dp"
             android:layout_marginEnd="8dp"
@@ -188,8 +188,10 @@
             android:layout_height="27dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:text="Education"
             android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/edu1EditListView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/skillsPlainText" />
 
@@ -209,26 +211,26 @@
 
         <ImageView
             android:id="@+id/educationAddTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="26dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.038"
+            app:layout_constraintHorizontal_bias="0.044"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toBottomOf="@+id/skillsPlainText"
             app:srcCompat="@drawable/ic_add" />
 
         <ImageView
             android:id="@+id/experienceAddTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="28dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.004"
             app:layout_constraintStart_toEndOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/edu1EditListView"
             app:srcCompat="@drawable/ic_add" />
