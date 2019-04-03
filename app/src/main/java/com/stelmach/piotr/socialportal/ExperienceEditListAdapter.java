@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stelmach.piotr.socialportal.Models.UserExperience;
@@ -17,15 +18,22 @@ public class ExperienceEditListAdapter extends ArrayAdapter<UserExperience> {
     private Context mContext;
     int mResource;
 
+    private EditExperienceAdapterCallback editExperienceAdapterCallback;
+
     public ExperienceEditListAdapter(@NonNull Context context, int resource, @NonNull List<UserExperience> objects) {
         super(context, resource, objects);
         mContext=context;
         mResource=resource;
     }
 
+    public void setCallback(EditExperienceAdapterCallback callback){
+
+        this.editExperienceAdapterCallback = callback;
+    }
+
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         String title=getItem(position).getTitle();
         String company=getItem(position).getCompany();
@@ -44,6 +52,15 @@ public class ExperienceEditListAdapter extends ArrayAdapter<UserExperience> {
         TextView toTextView=convertView.findViewById(R.id.toExpTextView);
         TextView descriptionTextView=convertView.findViewById(R.id.descriptionExpTextView);
 
+        ImageView imageView = convertView.findViewById(R.id.deleteExpIV);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editExperienceAdapterCallback.deleteExpFromProfile(getItem(position).getId());
+            }
+        });
+
         titleTextView.setText(title);
         companyTextView.setText(company);
         locationTextView.setText(location);
@@ -53,5 +70,10 @@ public class ExperienceEditListAdapter extends ArrayAdapter<UserExperience> {
         descriptionTextView.setText(description);
 
         return convertView;
+    }
+
+    public interface EditExperienceAdapterCallback{
+        //public void editEduInProfile(UserEducation userEducation);
+        public void  deleteExpFromProfile(String userId);
     }
 }

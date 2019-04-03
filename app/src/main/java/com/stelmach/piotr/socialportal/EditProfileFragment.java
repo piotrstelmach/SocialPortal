@@ -24,6 +24,7 @@ import com.stelmach.piotr.socialportal.Api.SocialPortalProfile;
 import com.stelmach.piotr.socialportal.Api.SocialPortalUser;
 import com.stelmach.piotr.socialportal.Models.PostUserProfile;
 import com.stelmach.piotr.socialportal.Models.UserEducation;
+import com.stelmach.piotr.socialportal.Models.UserExperience;
 import com.stelmach.piotr.socialportal.Models.UserProfile;
 
 import org.w3c.dom.Text;
@@ -36,7 +37,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class EditProfileFragment extends Fragment implements AddEducationDialog.AddEducationDialogListener, EditEducationDialog.EditEducationDialogListener, EducationEditListAdapter.EditEducationAdapterCallback {
+public class EditProfileFragment extends Fragment implements AddEducationDialog.AddEducationDialogListener,
+        EducationEditListAdapter.EditEducationAdapterCallback, AddExperienceDialog.AddExperienceDialogListener ,
+        ExperienceEditListAdapter.EditExperienceAdapterCallback {
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(SocialPortalUser.BASE_URL)
@@ -184,6 +187,7 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
 
 
         educationListAdapter.setCallback(this);
+        experienceListAdapter.setCallback(this);
         mEduEditListView.setAdapter(educationListAdapter);
         mExpEditListView.setAdapter(experienceListAdapter);
 
@@ -202,7 +206,9 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
     }
 
     private void addNewExperience(){
-
+        AddExperienceDialog addExperienceDialog=new AddExperienceDialog();
+        addExperienceDialog.setTargetFragment(EditProfileFragment.this,1);
+        addExperienceDialog.show(getFragmentManager(),"Add experience");
     }
 
     @Override
@@ -292,37 +298,49 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
         });
     }
 
+
     @Override
-    public void editEduInProfile(UserEducation userEducation){
-        Log.d("DATA_ADAPTER", "editEduInProfile: "+userEducation);
-        fm=getFragmentManager();
-        if(fm!=null) {
-            EditEducationDialog editEducationDialog = EditEducationDialog.newInstance(userEducation.getId(), userEducation.getSchool(),
-                    userEducation.getDegree(), userEducation.getFieldOfStudy(), userEducation.getFrom(),
-                    userEducation.getTo(), userEducation.getCurrent(), userEducation.getDescription());
+    public void applyExpData(String title, String company, String location, String dateFrom, String dateTo, Boolean current, String description) {
+        UserExperience userExperience=new UserExperience(current,title,company,location,dateFrom,dateTo,
+                description);
 
-            editEducationDialog.setTargetFragment(EditProfileFragment.this, 1);
+        Call<PostUserProfile> postUserProfileCall=socialPortalProfile.addExperienceToUserProfile(userToken,
+                userExperience);
 
-            editEducationDialog.show(fm, "Edit education");
-        }else{
-            Log.d("DATA_ADAPTER", "Fragment manager is null ");
-        }
+        postUserProfileCall.enqueue(new Callback<PostUserProfile>() {
+            @Override
+            public void onResponse(Call<PostUserProfile> call, Response<PostUserProfile> response) {
+                if(response.isSuccessful()){
+                    Log.d("DATA_FROM_DIALOG", "getting edu: "+response.body().getEducation().toString());
+                    experienceListAdapter.clear();
+                    experienceListAdapter.addAll(response.body().getExperience());
+                }
+                Log.d("DATA_FROM_DIALOG", "getting code: "+response.code());
+            }
+
+            @Override
+            public void onFailure(Call<PostUserProfile> call, Throwable t) {
+                Toast.makeText(getContext(),"Failed to add. Try again later or" +
+                        "check internet connection.",Toast.LENGTH_LONG).show();
+
+                Log.d("DATA_FROM_DIALOG",t.getLocalizedMessage());
+                Log.d("DATA_FROM_DIALOG",t.getMessage());
+            }
+        });
     }
 
     @Override
-    public void applyEditData(String id,String school, String deegree, String fieldOfStudy, String dateFrom, String dateTo, Boolean current, String description) {
-        UserEducation userEducation=new UserEducation(id,school,deegree,fieldOfStudy,dateFrom,dateTo,current,description);
-
-        Call<PostUserProfile> userProfileCall=socialPortalProfile.addEducationToUserProfile(userToken,userEducation);
+    public void deleteExpFromProfile(String userId) {
+        Call<PostUserProfile> userProfileCall=socialPortalProfile.deleteExperienceFromUserProfile(userToken,
+                userId);
 
         userProfileCall.enqueue(new Callback<PostUserProfile>() {
             @Override
             public void onResponse(Call<PostUserProfile> call, Response<PostUserProfile> response) {
+                Log.d("RETROFIT_EDU_ADAPTER", "onResponse: "+response.body().getEducation().toString());
                 if(response.isSuccessful()) {
-                    Log.d("DATA_FROM_DIALOG", "getting code: "+response.code());
-                    Log.d("DATA_FROM_DIALOG", "body: "+response.body().toString());
-                    educationListAdapter.clear();
-                    educationListAdapter.addAll(response.body().getEducation());
+                    experienceListAdapter.clear();
+                    experienceListAdapter.addAll(response.body().getExperience());
                 }else{
                     Log.d("DATA_FROM_DIALOG", "getting code: "+response.code());
                 }

@@ -93,20 +93,11 @@ public class EducationEditListAdapter extends ArrayAdapter<UserEducation>{
         if(current==false) currentTextView.setText("no");
         else currentTextView.setText("yes");
 
-        editImageView=convertView.findViewById(R.id.editImageV);
+        //editImageView=convertView.findViewById(R.id.editImageV);
         deleteImageView=convertView.findViewById(R.id.deleteImageV);
 
 
 
-        editImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //editEduInProfile.editEduInProfile(getItem(position));
-                editEducationAdapterCallback.editEduInProfile(getItem(position));
-
-
-            }
-        });
 
         deleteImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +116,7 @@ public class EducationEditListAdapter extends ArrayAdapter<UserEducation>{
     }
 
     public interface EditEducationAdapterCallback{
-        public void editEduInProfile(UserEducation userEducation);
+        //public void editEduInProfile(UserEducation userEducation);
         public void  deleteEduFromProfile(String userId);
     }
 

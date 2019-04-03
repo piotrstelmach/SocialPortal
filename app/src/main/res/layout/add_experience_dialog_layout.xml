@@ -8,93 +8,99 @@
 
 
     <EditText
-        android:id="@+id/schoolEditText"
+        android:id="@+id/titleAddText"
         android:layout_width="243dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:layout_weight="1"
         android:ems="10"
-        android:hint="School"
+        android:hint="Title"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/deegreeEditText"
+        android:id="@+id/locationAddText"
         android:layout_width="242dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="Deegree"
-        android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="88dp"
-        tools:layout_editor_absoluteY="101dp" />
-
-    <EditText
-        android:id="@+id/fieldOfStudyEdit"
-        android:layout_width="241dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
+        android:layout_weight="1"
         android:ems="10"
-        android:hint="Field of study"
+        android:hint="Location"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deegreeEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/companyAddText" />
 
     <EditText
-        android:id="@+id/fromDateEdit"
-        android:layout_width="208dp"
+        android:id="@+id/companyAddText"
+        android:layout_width="241dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="Company"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleAddText" />
+
+    <EditText
+        android:id="@+id/fromDateAddExp"
+        android:layout_width="215dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="From YYYY-MM-DD"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.406"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fieldOfStudyEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/locationAddText" />
 
     <EditText
-        android:id="@+id/toDateAddEdit"
+        android:id="@+id/toDateAddExp"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="To YYYY-MM-DD"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.298"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fromDateEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/fromDateAddExp" />
 
     <CheckBox
-        android:id="@+id/currentCheckBoxEdit"
+        android:id="@+id/currentCheckBoxAddExp"
         android:layout_width="85dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="8dp"
         android:text="Current"
+        app:layout_constraintBottom_toTopOf="@+id/descriptionAddExp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.116"
-        app:layout_constraintStart_toEndOf="@+id/toDateAddEdit"
-        app:layout_constraintTop_toBottomOf="@+id/fromDateEdit" />
+        app:layout_constraintHorizontal_bias="0.928"
+        app:layout_constraintStart_toEndOf="@+id/toDateAddExp"
+        app:layout_constraintTop_toBottomOf="@+id/fromDateAddExp"
+        app:layout_constraintVertical_bias="0.489" />
 
     <EditText
-        android:id="@+id/descriptionAddEdit"
+        android:id="@+id/descriptionAddExp"
         android:layout_width="234dp"
         android:layout_height="113dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Description"
@@ -102,6 +108,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toDateAddEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/toDateAddExp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -36,15 +36,15 @@ public interface SocialPortalProfile {
                                               @Body UserProfile userProfile);
     @Headers("Content-Type: application/json")
     @POST("api/profile/experience")
-    Call<UserProfile> addExperienceToUserProfile(@Header("Authorization") String token,
+    Call<PostUserProfile> addExperienceToUserProfile(@Header("Authorization") String token,
                                                  @Body UserExperience userExperience);
     @Headers("Content-Type: application/json")
     @POST("api/profile/education")
     Call<PostUserProfile> addEducationToUserProfile(@Header("Authorization") String token,
                                                     @Body UserEducation userEducation);
 
-    @DELETE("api/profile/experience/{exp_id")
-    Call<UserProfile> deleteExperienceFromUserProfile(@Header("Authorization") String token,
+    @DELETE("api/profile/experience/{exp_id}")
+    Call<PostUserProfile> deleteExperienceFromUserProfile(@Header("Authorization") String token,
                                                       @Path("exp_id") String expId);
 
     @DELETE("api/profile/education/{education_id}")

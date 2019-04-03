@@ -93,4 +93,39 @@ public class UserExperience {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public UserExperience(Boolean current, String id, String title, String company, String location, String from, String to, String description) {
+        this.current = current;
+        this.id = id;
+        this.title = title;
+        this.company = company;
+        this.location = location;
+        this.from = from;
+        this.to = to;
+        this.description = description;
+    }
+
+    public UserExperience(Boolean current, String title, String company, String location, String from, String to, String description) {
+        this.current = current;
+        this.title = title;
+        this.company = company;
+        this.location = location;
+        this.from = from;
+        this.to = to;
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "UserExperience{" +
+                "current=" + current +
+                ", id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", company='" + company + '\'' +
+                ", location='" + location + '\'' +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

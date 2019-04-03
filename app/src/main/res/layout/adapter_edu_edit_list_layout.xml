@@ -49,26 +49,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:text="From"
+            app:layout_constraintBottom_toTopOf="@+id/toEduTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.055"
+            app:layout_constraintHorizontal_bias="0.054"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deegreeEduTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/fieldofStudyEduTextView" />
 
         <TextView
             android:id="@+id/toEduTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="8dp"
             android:text="To"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintHorizontal_bias="0.051"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fromEduTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/fieldofStudyEduTextView" />
 
         <TextView
             android:id="@+id/currentEduTextView"
@@ -76,26 +78,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
 
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="Current"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.057"
+            app:layout_constraintHorizontal_bias="0.056"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toEduTextView" />
-
-        <ImageView
-            android:id="@+id/editImageV"
-            android:layout_width="36dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginEnd="52dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.977"
-            app:layout_constraintStart_toEndOf="@+id/fromEduTextView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_edit_pen" />
 
         <ImageView
             android:id="@+id/deleteImageV"
@@ -103,15 +92,24 @@
             android:layout_height="34dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="56dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/editImageV"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/fieldofStudyEduTextView"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.545"
             app:srcCompat="@drawable/ic_delete" />
+
+        <TextView
+            android:id="@+id/fieldofStudyEduTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Field of study"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deegreeEduTextView" />
 
     </android.support.constraint.ConstraintLayout>
 
