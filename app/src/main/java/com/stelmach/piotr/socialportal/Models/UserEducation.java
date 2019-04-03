@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserEducation {
 
+    @SerializedName("_id")
+    @Expose
+    private String id;
+
     @SerializedName("school")
     @Expose
     private String school;
@@ -83,7 +87,26 @@ public class UserEducation {
         this.description = description;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public UserEducation(String school, String degree, String fieldOfStudy, String from, String to, Boolean current, String description) {
+        this.school = school;
+        this.degree = degree;
+        this.fieldOfStudy = fieldOfStudy;
+        this.from = from;
+        this.to = to;
+        this.current = current;
+        this.description = description;
+    }
+
+    public UserEducation(String id, String school, String degree, String fieldOfStudy, String from, String to, Boolean current, String description) {
+        this.id = id;
         this.school = school;
         this.degree = degree;
         this.fieldOfStudy = fieldOfStudy;
@@ -96,7 +119,8 @@ public class UserEducation {
     @Override
     public String toString() {
         return "UserEducation{" +
-                "school='" + school + '\'' +
+                "id='" + id + '\'' +
+                ", school='" + school + '\'' +
                 ", degree='" + degree + '\'' +
                 ", fieldOfStudy='" + fieldOfStudy + '\'' +
                 ", from='" + from + '\'' +

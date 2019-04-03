@@ -7,12 +7,14 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +36,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class EditProfileFragment extends Fragment implements AddEducationDialog.AddEducationDialogListener {
+public class EditProfileFragment extends Fragment implements AddEducationDialog.AddEducationDialogListener, EditEducationDialog.EditEducationDialogListener, EducationEditListAdapter.EditEducationAdapterCallback {
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(SocialPortalUser.BASE_URL)
@@ -68,6 +70,8 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
 
     EducationEditListAdapter educationListAdapter;
     ExperienceEditListAdapter experienceListAdapter;
+
+    FragmentManager fm;
 
     @Nullable
     @Override
@@ -130,6 +134,7 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
                 addNewExperience();
             }
         });
+
     }
 
     private void setBasicProfileData(UserProfile userProfile) {
@@ -177,8 +182,13 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
         experienceListAdapter = new ExperienceEditListAdapter(getContext(),
                 R.layout.adapter_exp_edit_list_layout, userProfile.getExperience());
 
+
+        educationListAdapter.setCallback(this);
         mEduEditListView.setAdapter(educationListAdapter);
         mExpEditListView.setAdapter(experienceListAdapter);
+
+        setListViewHeightBasedOnChildren(mEduEditListView);
+        setListViewHeightBasedOnChildren(mExpEditListView);
 
 
 
@@ -229,6 +239,102 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
                 Log.d("DATA_FROM_DIALOG",t.getLocalizedMessage());
                 Log.d("DATA_FROM_DIALOG",t.getMessage());
 
+            }
+        });
+    }
+
+    //for formating listviews heights
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    @Override
+    public void deleteEduFromProfile(String id){
+        Call<PostUserProfile> userProfileCall=socialPortalProfile.deleteEducationFromUserProfile(userToken,
+                id);
+
+        userProfileCall.enqueue(new Callback<PostUserProfile>() {
+            @Override
+            public void onResponse(Call<PostUserProfile> call, Response<PostUserProfile> response) {
+                Log.d("RETROFIT_EDU_ADAPTER", "onResponse: "+response.body().getEducation().toString());
+                if(response.isSuccessful()) {
+                    educationListAdapter.clear();
+                    educationListAdapter.addAll(response.body().getEducation());
+                }else{
+                    Log.d("DATA_FROM_DIALOG", "getting code: "+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostUserProfile> call, Throwable t) {
+                Toast.makeText(getContext(),"Failed to add. Try again later or" +
+                        "check internet connection.",Toast.LENGTH_LONG).show();
+
+                Log.d("DATA_FROM_DIALOG",t.getLocalizedMessage());
+                Log.d("DATA_FROM_DIALOG",t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void editEduInProfile(UserEducation userEducation){
+        Log.d("DATA_ADAPTER", "editEduInProfile: "+userEducation);
+        fm=getFragmentManager();
+        if(fm!=null) {
+            EditEducationDialog editEducationDialog = EditEducationDialog.newInstance(userEducation.getId(), userEducation.getSchool(),
+                    userEducation.getDegree(), userEducation.getFieldOfStudy(), userEducation.getFrom(),
+                    userEducation.getTo(), userEducation.getCurrent(), userEducation.getDescription());
+
+            editEducationDialog.setTargetFragment(EditProfileFragment.this, 1);
+
+            editEducationDialog.show(fm, "Edit education");
+        }else{
+            Log.d("DATA_ADAPTER", "Fragment manager is null ");
+        }
+    }
+
+    @Override
+    public void applyEditData(String id,String school, String deegree, String fieldOfStudy, String dateFrom, String dateTo, Boolean current, String description) {
+        UserEducation userEducation=new UserEducation(id,school,deegree,fieldOfStudy,dateFrom,dateTo,current,description);
+
+        Call<PostUserProfile> userProfileCall=socialPortalProfile.addEducationToUserProfile(userToken,userEducation);
+
+        userProfileCall.enqueue(new Callback<PostUserProfile>() {
+            @Override
+            public void onResponse(Call<PostUserProfile> call, Response<PostUserProfile> response) {
+                if(response.isSuccessful()) {
+                    Log.d("DATA_FROM_DIALOG", "getting code: "+response.code());
+                    Log.d("DATA_FROM_DIALOG", "body: "+response.body().toString());
+                    educationListAdapter.clear();
+                    educationListAdapter.addAll(response.body().getEducation());
+                }else{
+                    Log.d("DATA_FROM_DIALOG", "getting code: "+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostUserProfile> call, Throwable t) {
+                Toast.makeText(getContext(),"Failed to add. Try again later or" +
+                        "check internet connection.",Toast.LENGTH_LONG).show();
+
+                Log.d("DATA_FROM_DIALOG",t.getLocalizedMessage());
+                Log.d("DATA_FROM_DIALOG",t.getMessage());
             }
         });
     }

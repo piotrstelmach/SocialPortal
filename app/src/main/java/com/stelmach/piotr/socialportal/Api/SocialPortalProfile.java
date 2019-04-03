@@ -48,7 +48,7 @@ public interface SocialPortalProfile {
                                                       @Path("exp_id") String expId);
 
     @DELETE("api/profile/education/{education_id}")
-    Call<UserProfile> deleteEducationFromUserProfile(@Header("Authorization") String token,
+    Call<PostUserProfile> deleteEducationFromUserProfile(@Header("Authorization") String token,
                                                      @Path("education_id") String userId);
 
 }

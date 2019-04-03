@@ -8,7 +8,7 @@
 
 
     <EditText
-        android:id="@+id/schoolAddText"
+        android:id="@+id/schoolEditText"
         android:layout_width="243dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -23,23 +23,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/deegreeAddText"
+        android:id="@+id/deegreeEditText"
         android:layout_width="242dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
         android:layout_weight="1"
         android:ems="10"
         android:hint="Deegree"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.522"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/schoolAddText" />
+        tools:layout_editor_absoluteX="88dp"
+        tools:layout_editor_absoluteY="101dp" />
 
     <EditText
-        android:id="@+id/fieldOfStudyAdd"
+        android:id="@+id/fieldOfStudyEdit"
         android:layout_width="241dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -51,10 +46,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deegreeAddText" />
+        app:layout_constraintTop_toBottomOf="@+id/deegreeEditText" />
 
     <EditText
-        android:id="@+id/fromDateAdd"
+        android:id="@+id/fromDateEdit"
         android:layout_width="208dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -65,10 +60,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.406"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fieldOfStudyAdd" />
+        app:layout_constraintTop_toBottomOf="@+id/fieldOfStudyEdit" />
 
     <EditText
-        android:id="@+id/toDateAdd"
+        android:id="@+id/toDateAddEdit"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -79,10 +74,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.298"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fromDateAdd" />
+        app:layout_constraintTop_toBottomOf="@+id/fromDateEdit" />
 
     <CheckBox
-        android:id="@+id/currentCheckBoxAdd"
+        android:id="@+id/currentCheckBoxEdit"
         android:layout_width="85dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
@@ -91,11 +86,11 @@
         android:text="Current"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.116"
-        app:layout_constraintStart_toEndOf="@+id/toDateAdd"
-        app:layout_constraintTop_toBottomOf="@+id/fromDateAdd" />
+        app:layout_constraintStart_toEndOf="@+id/toDateAddEdit"
+        app:layout_constraintTop_toBottomOf="@+id/fromDateEdit" />
 
     <EditText
-        android:id="@+id/descriptionAddEdu"
+        android:id="@+id/descriptionAddEdit"
         android:layout_width="234dp"
         android:layout_height="113dp"
         android:layout_marginStart="8dp"
@@ -107,6 +102,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toDateAdd" />
+        app:layout_constraintTop_toBottomOf="@+id/toDateAddEdit" />
 
 </android.support.constraint.ConstraintLayout>
