@@ -233,6 +233,7 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
                     Log.d("DATA_FROM_DIALOG", "getting edu: "+response.body().getEducation().toString());
                     educationListAdapter.clear();
                     educationListAdapter.addAll(response.body().getEducation());
+                    setListViewHeightBasedOnChildren(mEduEditListView);
                 }
                 Log.d("DATA_FROM_DIALOG", "getting code: "+response.code());
             }
@@ -282,6 +283,7 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
                 if(response.isSuccessful()) {
                     educationListAdapter.clear();
                     educationListAdapter.addAll(response.body().getEducation());
+                    setListViewHeightBasedOnChildren(mEduEditListView);
                 }else{
                     Log.d("DATA_FROM_DIALOG", "getting code: "+response.code());
                 }
@@ -314,6 +316,7 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
                     Log.d("DATA_FROM_DIALOG", "getting edu: "+response.body().getEducation().toString());
                     experienceListAdapter.clear();
                     experienceListAdapter.addAll(response.body().getExperience());
+                    setListViewHeightBasedOnChildren(mExpEditListView);
                 }
                 Log.d("DATA_FROM_DIALOG", "getting code: "+response.code());
             }
@@ -341,6 +344,7 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
                 if(response.isSuccessful()) {
                     experienceListAdapter.clear();
                     experienceListAdapter.addAll(response.body().getExperience());
+                    setListViewHeightBasedOnChildren(mExpEditListView);
                 }else{
                     Log.d("DATA_FROM_DIALOG", "getting code: "+response.code());
                 }
