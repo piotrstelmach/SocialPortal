@@ -31,6 +31,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
+            android:hint="Profile name"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -44,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:hint="handle"
             android:text="handle"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,6 +60,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="8dp"
+            android:hint="Company"
             android:text="Company"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,6 +75,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="36dp"
             android:layout_marginEnd="8dp"
+            android:hint="Location"
             android:text="Location"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +90,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="48dp"
             android:layout_marginEnd="8dp"
+            android:hint="Website"
             android:text="Website"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -128,6 +133,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="132dp"
             android:text="There are nothing to display."
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.467"
@@ -234,6 +240,19 @@
             app:layout_constraintStart_toEndOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/edu1EditListView"
             app:srcCompat="@drawable/ic_add" />
+
+        <Button
+            android:id="@+id/profileFirstSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="77dp"
+            android:text="Save profile"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/exp1EditListView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.stelmach.piotr.socialportal.Api;
 
+import com.stelmach.piotr.socialportal.Models.CreateProfile;
 import com.stelmach.piotr.socialportal.Models.PostUserProfile;
 import com.stelmach.piotr.socialportal.Models.UserEducation;
 import com.stelmach.piotr.socialportal.Models.UserExperience;
@@ -33,7 +34,7 @@ public interface SocialPortalProfile {
     @Headers("Content-Type: application/json")
     @POST("api/profile")
     Call<UserProfile> createOrEditUserProfile(@Header("Authorization") String token,
-                                              @Body UserProfile userProfile);
+                                              @Body CreateProfile createProfile);
     @Headers("Content-Type: application/json")
     @POST("api/profile/experience")
     Call<PostUserProfile> addExperienceToUserProfile(@Header("Authorization") String token,

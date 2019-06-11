@@ -1,5 +1,6 @@
 package com.stelmach.piotr.socialportal;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -48,6 +49,9 @@ public class ProfileFragment extends Fragment {
     TextView mProfileLocationTv;
     TextView mProfileWebsiteTv;
     TextView mProfileSkillsTv;
+    TextView mCreateProfileTv;
+    TextView mExperienceTextView;
+    TextView mEducationTextView;
 
     ListView mEducationListView;
     ListView mExperienceListView;
@@ -73,22 +77,57 @@ public class ProfileFragment extends Fragment {
         userProfileCall.enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
-                Log.d("RETROFIT","Response profile: "+response.message());
+                Log.d("RETROFIT","Response profile: "+response.message()+" code: "+response.code());
                 if(response.isSuccessful() && response.body()!=null){
-                    Log.d("RETROFIT", "avatar: "+response.body().getUser().getAvatar());
-                    setBasicProfileData(response.body());
-                }else{
-                    Toast.makeText(fragmentContext,"Unathorized",Toast.LENGTH_LONG)
-                            .show();
+                        Log.d("RETROFIT", "avatar: " + response.body().getUser().getAvatar());
+                        setBasicProfileData(response.body());
+                    }
+                    else{
+                    HideProfileControls();
+                    //Toast.makeText(fragmentContext,"Unathorized",Toast.LENGTH_LONG)
+                            //.show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserProfile> call, Throwable t) {
-                Toast.makeText(fragmentContext,"Failed to connect. Check connection and try again",Toast.LENGTH_LONG)
+                Toast.makeText(fragmentContext,"You don't have profile or connection failed",Toast.LENGTH_LONG)
                         .show();
             }
         });
+    }
+
+    private void HideProfileControls(){
+        mAvatarImageView=getView().findViewById(R.id.profileImageView);
+        mProfileNameTv=getView().findViewById(R.id.profileNameTextView);
+        mProfileHandleTv=getView().findViewById(R.id.handleProfileTextView);
+        mProfileCompanyTv=getView().findViewById(R.id.companyTextView);
+        mProfileLocationTv=getView().findViewById(R.id.locationTextView);
+        mProfileWebsiteTv=getView().findViewById(R.id.websiteTextView);
+        mProfileSkillsTv=getView().findViewById(R.id.skillsTextView);
+        mEducationListView=getView().findViewById(R.id.edu1ListView);
+        mExperienceListView=getView().findViewById(R.id.exp1ListView);
+        mCreateProfileTv=getView().findViewById(R.id.createProfileTextView);
+        mExperienceTextView=getView().findViewById(R.id.textView7);
+        mEducationTextView=getView().findViewById(R.id.textView10);
+
+
+        mAvatarImageView.setVisibility(View.INVISIBLE);
+        mProfileNameTv.setVisibility(View.INVISIBLE);
+        mProfileHandleTv.setVisibility(View.INVISIBLE);
+        mProfileCompanyTv.setVisibility(View.INVISIBLE);
+        mProfileLocationTv.setVisibility(View.INVISIBLE);
+        mProfileWebsiteTv.setVisibility(View.INVISIBLE);
+        mProfileSkillsTv.setVisibility(View.INVISIBLE);
+        mEducationListView.setVisibility(View.INVISIBLE);
+        mExperienceListView.setVisibility(View.INVISIBLE);
+        mExperienceTextView.setVisibility(View.INVISIBLE);
+        mEducationTextView.setVisibility(View.INVISIBLE);
+
+        //set visible communicate
+        mCreateProfileTv.setVisibility(View.VISIBLE);
+
+
     }
 
     private void setBasicProfileData(UserProfile userProfile){

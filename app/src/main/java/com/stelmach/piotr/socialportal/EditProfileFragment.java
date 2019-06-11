@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.stelmach.piotr.socialportal.Api.SocialPortalProfile;
 import com.stelmach.piotr.socialportal.Api.SocialPortalUser;
+import com.stelmach.piotr.socialportal.Models.CreateProfile;
+import com.stelmach.piotr.socialportal.Models.CurrentUser;
 import com.stelmach.piotr.socialportal.Models.PostUserProfile;
 import com.stelmach.piotr.socialportal.Models.UserEducation;
 import com.stelmach.piotr.socialportal.Models.UserExperience;
@@ -29,6 +32,9 @@ import com.stelmach.piotr.socialportal.Models.UserProfile;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -47,7 +53,7 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
             .build();
 
     SocialPortalProfile socialPortalProfile = retrofit.create(SocialPortalProfile.class);
-
+    SocialPortalUser socialPortalUser=retrofit.create(SocialPortalUser.class);
     Context fragmentContext;
 
     String userID;
@@ -74,7 +80,12 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
     EducationEditListAdapter educationListAdapter;
     ExperienceEditListAdapter experienceListAdapter;
 
+    Button mButtonSave;
     FragmentManager fm;
+
+    CurrentUser currentUser;
+
+
 
     @Nullable
     @Override
@@ -92,6 +103,9 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
         userToken = sharedPref.getString("Token", "Alternative");
         Log.d("LOAD_TOKEN", userToken);
 
+
+
+
         Call<UserProfile> userProfileCall = socialPortalProfile.getCurrentUserProfile(userToken);
 
         userProfileCall.enqueue(new Callback<UserProfile>() {
@@ -100,10 +114,12 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
                 Log.d("RETROFIT", "Response profile: " + response.message());
                 if (response.isSuccessful() && response.body() != null) {
                     Log.d("RETROFIT", "avatar: " + response.body().getUser().getAvatar());
-                    setBasicProfileData(response.body());
+                    setBasicProfileData(response.body(),false);
                 } else {
-                    Toast.makeText(fragmentContext, "Unathorized", Toast.LENGTH_LONG)
-                            .show();
+                    //Toast.makeText(fragmentContext, "Unathorized", Toast.LENGTH_LONG)
+                            //.show();
+                    Log.d("RETROFIT", "reponse body: " + response.body());
+                    setBasicProfileData(response.body(),true);
                 }
             }
 
@@ -113,6 +129,7 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
                         .show();
             }
         });
+
 
 
     }
@@ -140,62 +157,152 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
 
     }
 
-    private void setBasicProfileData(UserProfile userProfile) {
+    private void setBasicProfileData(final UserProfile userProfile, boolean emptyUser) {
 
-        userID=userProfile.getUser().getId();
 
-        mEduEditListView = getView().findViewById(R.id.edu1EditListView);
-        mExpEditListView = getView().findViewById(R.id.exp1EditListView);
 
-        emptyTextView = getView().findViewById(android.R.id.empty);
-        //mExpEmptyTextView = getView().findViewById(R.id.expEmptyTextView);
+        if(!emptyUser) {
+            userID=currentUser.getId();
+            mEduEditListView = getView().findViewById(R.id.edu1EditListView);
+            mExpEditListView = getView().findViewById(R.id.exp1EditListView);
 
-        mExpEditListView.setEmptyView(emptyTextView);
-        mEduEditListView.setEmptyView(emptyTextView);
+            emptyTextView = getView().findViewById(android.R.id.empty);
+            //mExpEmptyTextView = getView().findViewById(R.id.expEmptyTextView);
 
-        mAvatarImageView = getView().findViewById(R.id.profileImageView);
-        mProfileNameTv = getView().findViewById(R.id.profileEditNameTextView);
-        mProfileHandleTv = getView().findViewById(R.id.handleProfileEditTextView);
-        mProfileCompanyTv = getView().findViewById(R.id.companyEditTextView);
-        mProfileLocationTv = getView().findViewById(R.id.locationEditTextView);
-        mProfileWebsiteTv = getView().findViewById(R.id.websiteEditTextView);
-        mProfileSkillsTv = getView().findViewById(R.id.skillsPlainText);
+            mExpEditListView.setEmptyView(emptyTextView);
+            mEduEditListView.setEmptyView(emptyTextView);
 
-        String avatarNormal = userProfile.getUser().getAvatar().substring(2);
-        Picasso.get().load("http://" + avatarNormal).into(mAvatarImageView);
+            mAvatarImageView = getView().findViewById(R.id.profileImageView);
+            mProfileNameTv = getView().findViewById(R.id.profileEditNameTextView);
+            mProfileHandleTv = getView().findViewById(R.id.handleProfileEditTextView);
+            mProfileCompanyTv = getView().findViewById(R.id.companyEditTextView);
+            mProfileLocationTv = getView().findViewById(R.id.locationEditTextView);
+            mProfileWebsiteTv = getView().findViewById(R.id.websiteEditTextView);
+            mProfileSkillsTv = getView().findViewById(R.id.skillsPlainText);
 
-        mProfileNameTv.setText(userProfile.getUser().getName());
-        mProfileHandleTv.setText(userProfile.getHandle());
-        mProfileCompanyTv.setText(userProfile.getCompany());
-        mProfileLocationTv.setText(userProfile.getLocation());
-        mProfileWebsiteTv.setText(userProfile.getWebsite());
+            String avatarNormal = userProfile.getUser().getAvatar().substring(2);
+            Picasso.get().load("http://" + avatarNormal).into(mAvatarImageView);
 
-        String skll = "\n";
-        if (userProfile.getSkills() != null) {
-            List<String> skills = userProfile.getSkills();
-            for (String skill : skills) {
-                skll += skill;
-                skll += ",";
+            mProfileNameTv.setText(userProfile.getUser().getName());
+            mProfileHandleTv.setText(userProfile.getHandle());
+            mProfileCompanyTv.setText(userProfile.getCompany());
+            mProfileLocationTv.setText(userProfile.getLocation());
+            mProfileWebsiteTv.setText(userProfile.getWebsite());
+
+            String skll = "\n";
+            if (userProfile.getSkills() != null) {
+                List<String> skills = userProfile.getSkills();
+                for (String skill : skills) {
+                    skll += skill;
+                    skll += ",";
+                }
+                mProfileSkillsTv.setText(skll);
             }
+
+            educationListAdapter = new EducationEditListAdapter(getContext(),
+                    R.layout.adapter_edu_edit_list_layout, userProfile.getEducation());
+            experienceListAdapter = new ExperienceEditListAdapter(getContext(),
+                    R.layout.adapter_exp_edit_list_layout, userProfile.getExperience());
+
+
+            educationListAdapter.setCallback(this);
+            experienceListAdapter.setCallback(this);
+            mEduEditListView.setAdapter(educationListAdapter);
+            mExpEditListView.setAdapter(experienceListAdapter);
+
+            setListViewHeightBasedOnChildren(mEduEditListView);
+            setListViewHeightBasedOnChildren(mExpEditListView);
+
+        }else{
+            mEduEditListView = getView().findViewById(R.id.edu1EditListView);
+            mExpEditListView = getView().findViewById(R.id.exp1EditListView);
+
+            emptyTextView = getView().findViewById(android.R.id.empty);
+            //mExpEmptyTextView = getView().findViewById(R.id.expEmptyTextView);
+
+            mExpEditListView.setEmptyView(emptyTextView);
+            mEduEditListView.setEmptyView(emptyTextView);
+
+            mAvatarImageView = getView().findViewById(R.id.profileImageView);
+            mProfileNameTv = getView().findViewById(R.id.profileEditNameTextView);
+            mProfileHandleTv = getView().findViewById(R.id.handleProfileEditTextView);
+            mProfileCompanyTv = getView().findViewById(R.id.companyEditTextView);
+            mProfileLocationTv = getView().findViewById(R.id.locationEditTextView);
+            mProfileWebsiteTv = getView().findViewById(R.id.websiteEditTextView);
+            mProfileSkillsTv = getView().findViewById(R.id.skillsPlainText);
+            mButtonSave=getView().findViewById(R.id.profileFirstSave);
+
+            //String avatarNormal = currentUser.getAvatar().substring(2);
+            //Picasso.get().load("http:" + avatarNormal).into(mAvatarImageView);
+
+            mProfileNameTv.setText("");
+            mProfileHandleTv.setText("");
+            mProfileCompanyTv.setText("");
+            mProfileLocationTv.setText("");
+            mProfileWebsiteTv.setText("");
+
+            String skll = "";
             mProfileSkillsTv.setText(skll);
+
+
+            List<UserEducation> userEducationList=new ArrayList<>();
+            List<UserExperience> userExperienceList=new ArrayList<>();
+
+            educationListAdapter = new EducationEditListAdapter(getContext(),
+                    R.layout.adapter_edu_edit_list_layout, userEducationList);
+            experienceListAdapter = new ExperienceEditListAdapter(getContext(),
+                    R.layout.adapter_exp_edit_list_layout, userExperienceList);
+
+
+            educationListAdapter.setCallback(this);
+            experienceListAdapter.setCallback(this);
+            mEduEditListView.setAdapter(educationListAdapter);
+            mExpEditListView.setAdapter(experienceListAdapter);
+
+            setListViewHeightBasedOnChildren(mEduEditListView);
+            setListViewHeightBasedOnChildren(mExpEditListView);
+
+            mButtonSave.setVisibility(View.VISIBLE);
+            mButtonSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    GetCurrentUser();
+
+                    CreateProfile newUserProfile=new CreateProfile();
+
+                    newUserProfile.setCompany(mProfileCompanyTv.getText().toString());
+                    newUserProfile.setHandle(mProfileHandleTv.getText().toString());
+                    newUserProfile.setLocation(mProfileLocationTv.getText().toString());
+                    newUserProfile.setWebsite(mProfileWebsiteTv.getText().toString());
+                    //List<String> userSkills= Arrays.asList(mProfileSkillsTv.getText().toString().split(","));
+                    newUserProfile.setSkills(mProfileSkillsTv.getText().toString());
+                    newUserProfile.setStatus("developer");
+                    Log.d("RETROFIT:","New profile body "+newUserProfile.toString());
+                     AddNewProfile(newUserProfile);
+
+                }
+            });
+
         }
 
-         educationListAdapter= new EducationEditListAdapter(getContext(),
-               R.layout.adapter_edu_edit_list_layout, userProfile.getEducation());
-        experienceListAdapter = new ExperienceEditListAdapter(getContext(),
-                R.layout.adapter_exp_edit_list_layout, userProfile.getExperience());
+    }
 
+    private void GetCurrentUser(){
+        Call<CurrentUser> getCurrentUserData=socialPortalUser.GetCurrentUser(userToken);
 
-        educationListAdapter.setCallback(this);
-        experienceListAdapter.setCallback(this);
-        mEduEditListView.setAdapter(educationListAdapter);
-        mExpEditListView.setAdapter(experienceListAdapter);
+        getCurrentUserData.enqueue(new Callback<CurrentUser>() {
+            @Override
+            public void onResponse(Call<CurrentUser> call, Response<CurrentUser> response) {
+                Log.d("RETROFIT", "Current user from edit: " + response.body());
+                currentUser=response.body();
+            }
 
-        setListViewHeightBasedOnChildren(mEduEditListView);
-        setListViewHeightBasedOnChildren(mExpEditListView);
-
-
-
+            @Override
+            public void onFailure(Call<CurrentUser> call, Throwable throwable) {
+                Log.d("RETROFIT", "Current user from edit: " + throwable.getMessage());
+            }
+        });
     }
 
     private void addNewEducation(){
@@ -359,6 +466,29 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
                 Log.d("DATA_FROM_DIALOG",t.getMessage());
             }
         });
+    }
+
+    private void AddNewProfile(CreateProfile createProfile){
+        Call<UserProfile> userProfileCall = socialPortalProfile.createOrEditUserProfile(userToken,createProfile);
+
+        userProfileCall.enqueue(new Callback<UserProfile>() {
+
+            @Override
+            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                try {
+                    Log.d("RETROFIT","Message: "+response.message()+" Code: "+response.code()+" Error body "+response.errorBody().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                setBasicProfileData(response.body(),false);
+            }
+
+            @Override
+            public void onFailure(Call<UserProfile> call, Throwable throwable) {
+                Toast.makeText(getContext(),"Failed to save. Please try again",Toast.LENGTH_LONG);
+            }
+        });
+
     }
 }
 
