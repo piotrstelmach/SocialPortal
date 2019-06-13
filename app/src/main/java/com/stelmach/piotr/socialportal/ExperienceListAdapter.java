@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.stelmach.piotr.socialportal.Models.UserEducation;
 import com.stelmach.piotr.socialportal.Models.UserExperience;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ExperienceListAdapter extends ArrayAdapter<UserExperience> {
@@ -45,14 +48,25 @@ public class ExperienceListAdapter extends ArrayAdapter<UserExperience> {
         TextView toTextView=convertView.findViewById(R.id.toExpTextView);
         TextView descriptionTextView=convertView.findViewById(R.id.descriptionExpTextView);
 
-        titleTextView.setText(title);
-        companyTextView.setText(company);
-        locationTextView.setText(location);
-        fromTextView.setText(from);
+        titleTextView.setText("Title "+title);
+        companyTextView.setText("Company "+company);
+        locationTextView.setText("Location "+location);
+        fromTextView.setText("From "+formatDate(from));
         if(to==null) toTextView.setText("Current Job");
-        else toTextView.setText(to);
-        descriptionTextView.setText(description);
+        else toTextView.setText("To "+formatDate(to));
+        descriptionTextView.setText("Description "+description);
 
         return convertView;
+    }
+
+    private String formatDate(String enterDate){
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(enterDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String formattedDate = new SimpleDateFormat("dd/MM/yyyy, Ka").format(date);
+        return formattedDate;
     }
 }

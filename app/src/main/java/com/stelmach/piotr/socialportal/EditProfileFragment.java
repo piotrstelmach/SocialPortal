@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -90,6 +93,7 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_edit_profile, container, false);
     }
 
@@ -135,6 +139,34 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.save_profile_menu,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.saveProfileMenuButton) {
+            GetCurrentUser();
+
+            CreateProfile newUserProfile=new CreateProfile();
+
+            newUserProfile.setCompany(mProfileCompanyTv.getText().toString());
+            newUserProfile.setHandle(mProfileHandleTv.getText().toString());
+            newUserProfile.setLocation(mProfileLocationTv.getText().toString());
+            newUserProfile.setWebsite(mProfileWebsiteTv.getText().toString());
+            //List<String> userSkills= Arrays.asList(mProfileSkillsTv.getText().toString().split(","));
+            newUserProfile.setSkills(mProfileSkillsTv.getText().toString());
+            newUserProfile.setStatus("developer");
+            Log.d("RETROFIT:","New profile body "+newUserProfile.toString());
+            AddNewProfile(newUserProfile);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -159,10 +191,9 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
 
     private void setBasicProfileData(final UserProfile userProfile, boolean emptyUser) {
 
-
-
         if(!emptyUser) {
-            userID=currentUser.getId();
+            GetCurrentUser();
+            userID=userProfile.getUser().getId();
             mEduEditListView = getView().findViewById(R.id.edu1EditListView);
             mExpEditListView = getView().findViewById(R.id.exp1EditListView);
 
@@ -180,8 +211,17 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
             mProfileWebsiteTv = getView().findViewById(R.id.websiteEditTextView);
             mProfileSkillsTv = getView().findViewById(R.id.skillsPlainText);
 
-            String avatarNormal = userProfile.getUser().getAvatar().substring(2);
-            Picasso.get().load("http://" + avatarNormal).into(mAvatarImageView);
+            String prefix;
+            String avatarNormal=userProfile.getUser().getAvatar();
+
+            if(avatarNormal.charAt(0)=='/'){
+                prefix="http:";
+            }else{
+                prefix="http://";
+                avatarNormal.substring(2);
+            }
+
+            Picasso.get().load(prefix + avatarNormal).into(mAvatarImageView);
 
             mProfileNameTv.setText(userProfile.getUser().getName());
             mProfileHandleTv.setText(userProfile.getHandle());
@@ -283,6 +323,7 @@ public class EditProfileFragment extends Fragment implements AddEducationDialog.
 
                 }
             });
+            mButtonSave.setVisibility(View.INVISIBLE);
 
         }
 

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.stelmach.piotr.socialportal.Api.SocialPortalUser;
@@ -64,27 +65,32 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<AuthData> call, Response<AuthData> response) {
                         Log.d("RETROFIT", response.message());
 
-                        //Testing receive data
-                        AuthData authData=response.body();
+                        if(response.code()==200) {
+                            //Testing receive data
+                            AuthData authData = response.body();
 
-                        Log.d("RETROFIT", authData.getSuccess().toString());
-                        Log.d("RETROFIT", authData.getToken());
+                            Log.d("RETROFIT", authData.getSuccess().toString());
+                            Log.d("RETROFIT", authData.getToken());
 
-                        //save token to cache
-                        //SharedPreferences sharedPreferences=getPreferences(Context.MODE_PRIVATE);
-                        //SharedPreferences.Editor editor=sharedPreferences.edit();
-                        //editor.putString("Token",response.body().getToken());
-                        //editor.commit();
+                            //save token to cache
+                            //SharedPreferences sharedPreferences=getPreferences(Context.MODE_PRIVATE);
+                            //SharedPreferences.Editor editor=sharedPreferences.edit();
+                            //editor.putString("Token",response.body().getToken());
+                            //editor.commit();
 
-                        saveTokenToCache(response.body().getToken());
+                            saveTokenToCache(response.body().getToken());
 
-                        GoToMainActivity();
+                            GoToMainActivity();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Login failed try again",Toast.LENGTH_LONG);
+                        }
 
                     }
 
                     @Override
                     public void onFailure(Call<AuthData> call, Throwable t) {
                         Log.d("RETROFIT", t.getLocalizedMessage());
+
                     }
                 });
 

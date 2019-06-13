@@ -6,5 +6,34 @@
     <ListView
         android:id="@+id/postsListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="484dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="119dp" />
+
+    <EditText
+        android:id="@+id/newPostEditText"
+        android:layout_width="277dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="118dp"
+        android:layout_marginBottom="61dp"
+        android:ems="10"
+        android:hint="Enter your post here"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/sendCommentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="64dp"
+        android:text="Send" />
+
 </RelativeLayout>

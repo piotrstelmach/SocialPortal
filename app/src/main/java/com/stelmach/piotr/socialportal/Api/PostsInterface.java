@@ -1,6 +1,7 @@
 package com.stelmach.piotr.socialportal.Api;
 
 import com.stelmach.piotr.socialportal.Models.Post;
+import com.stelmach.piotr.socialportal.Models.PostToSend;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface PostsInterface {
 
     @Headers("Content-Type: application/json")
     @POST("api/posts")
-    Call<Post> CreateNewPost(@Header("Authorization") String token, @Body Post postBody);
+    Call<Post> CreateNewPost(@Header("Authorization") String token, @Body PostToSend postBody);
 
     @Headers("Content-Type: application/json")
     @DELETE("api/posts/{id}")

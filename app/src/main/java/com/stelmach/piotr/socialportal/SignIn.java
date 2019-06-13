@@ -51,25 +51,30 @@ public class SignIn extends AppCompatActivity {
                         nameText.getText().toString(),passwordText.getText().toString(),
                         password2Text.getText().toString());
 
-                Call<PortalUser> userSignIn=socialPortalUser.RegisterNewUser(signInModel);
-                userSignIn.enqueue(new Callback<PortalUser>() {
-                    @Override
-                    public void onResponse(Call<PortalUser> call, Response<PortalUser> response) {
-                        Log.d("RETROFIT_SIGN_IN",response.message());
-                        Log.d("RETROFIT_SIGN_IN",response.body().getEmail());
-                        Log.d("RETROFIT_SIGN_IN",response.body().getName());
-                        Log.d("RETROFIT_SIGN_IN",response.body().getId());
+                if(passwordText.getText().toString().equals(password2Text.getText().toString())) {
 
-                        if(response.code()==200 && response.body() !=null){
-                            finish();
+                    Call<PortalUser> userSignIn = socialPortalUser.RegisterNewUser(signInModel);
+                    userSignIn.enqueue(new Callback<PortalUser>() {
+                        @Override
+                        public void onResponse(Call<PortalUser> call, Response<PortalUser> response) {
+                            Log.d("RETROFIT_SIGN_IN", response.message());
+                            Log.d("RETROFIT_SIGN_IN", response.body().getEmail());
+                            Log.d("RETROFIT_SIGN_IN", response.body().getName());
+                            Log.d("RETROFIT_SIGN_IN", response.body().getId());
+
+                            if (response.code() == 200 && response.body() != null) {
+                                finish();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<PortalUser> call, Throwable t) {
-                        Log.d("RETROFIT_SIGN_IN",t.getLocalizedMessage());
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<PortalUser> call, Throwable t) {
+                            Log.d("RETROFIT_SIGN_IN", t.getLocalizedMessage());
+                        }
+                    });
+                }else{
+                    Toast.makeText(getApplicationContext(),"Password must match!",Toast.LENGTH_LONG);
+                }
             }
         });
     }

@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.stelmach.piotr.socialportal.Models.UserEducation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class EducationListAdapter extends ArrayAdapter<UserEducation> {
@@ -44,13 +47,25 @@ public class EducationListAdapter extends ArrayAdapter<UserEducation> {
         TextView toTextView=convertView.findViewById(R.id.toEduTextView);
         TextView currentTextView=convertView.findViewById(R.id.currentEduTextView);
 
-        schoolTextView.setText(school);
-        deegreeTextView.setText(deegree);
-        fromTextView.setText(from);
+        schoolTextView.setText("School "+school);
+        deegreeTextView.setText("Deegree "+deegree);
+        fromTextView.setText("From "+formatDate(from));
         toTextView.setText(to);
-        if(current==false) currentTextView.setText("no");
-        else currentTextView.setText("yes");
+        if(to!=null) toTextView.setText("To "+formatDate(to));
+        if(current==false) currentTextView.setText("Current: no");
+        else currentTextView.setText("Current: yes");
 
         return convertView;
+    }
+
+    private String formatDate(String enterDate){
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(enterDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String formattedDate = new SimpleDateFormat("dd/MM/yyyy, Ka").format(date);
+        return formattedDate;
     }
 }

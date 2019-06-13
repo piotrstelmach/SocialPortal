@@ -1,5 +1,6 @@
 package com.stelmach.piotr.socialportal;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     SocialPortalUser socialPortalUser = retrofit.create(SocialPortalUser.class);
 
+    CurrentUser currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String userToken=sharedPref.getString("Token","Alternative");
         Log.d("LOAD_TOKEN",userToken);
 
-        final Call<CurrentUser> currentUserCall=socialPortalUser.GetCurrentUser(userToken);
+        Call<CurrentUser> currentUserCall=socialPortalUser.GetCurrentUser(userToken);
 
         currentUserCall.enqueue(new Callback<CurrentUser>() {
             @Override
@@ -83,15 +86,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("RETROFIT",response.message());
                 Log.d("RETROFIT",response.body().toString());
 
-                if(response.isSuccessful()){
+                /*if(response.isSuccessful() && response.code()==200){
 
-                    setCurrentUserData(response.body());
+                    currentUser=response.body();
+                    setCurrentUserData(currentUser);
+                }*/
 
-                }else{
-                    Toast.makeText(MainActivity.this,"Unathorized",Toast.LENGTH_LONG)
-                            .show();
-
-                }
             }
 
             @Override
@@ -106,13 +106,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     private void setCurrentUserData(CurrentUser user){
-        mAvatarImageView=findViewById(R.id.avatarImageView);
+       mAvatarImageView=findViewById(R.id.avatarImageView);
         mNameTextView=findViewById(R.id.usernameTextView);
-        String avatarNormal=user.getAvatar().substring(2);
+
+        String prefix;
+        String avatarNormal=user.getAvatar();
+
+        if(avatarNormal.charAt(0)=='/'){
+            prefix="http:";
+        }else{
+            prefix="http://";
+            avatarNormal.substring(2);
+        }
+
         Log.d("SETDATA", "setCurrentUserData: "+ avatarNormal);
-        Picasso.get().load("http://"+avatarNormal).into(mAvatarImageView);
-        mNameTextView.setText(user.getName());
+        Picasso.get().load(prefix+avatarNormal).into(mAvatarImageView);
+        if(mNameTextView!=null) {
+            mNameTextView.setText(user.getName());
+        }
     }
 
 
@@ -146,6 +163,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new SearchFragment()).commit();
                 break;
+            case R.id.logoutUserDrawerBtn:
+                startActivity(new Intent(this,LoginActivity.class));
+                finish();
+                break;
+
+
         }
 
         mDrawerLayout.closeDrawer(GravityCompat.START);

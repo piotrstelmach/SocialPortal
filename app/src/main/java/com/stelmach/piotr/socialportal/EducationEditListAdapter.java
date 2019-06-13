@@ -20,6 +20,9 @@ import com.stelmach.piotr.socialportal.Api.SocialPortalUser;
 import com.stelmach.piotr.socialportal.Models.UserEducation;
 import com.stelmach.piotr.socialportal.Models.UserProfile;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -86,12 +89,12 @@ public class EducationEditListAdapter extends ArrayAdapter<UserEducation>{
         TextView toTextView=convertView.findViewById(R.id.toEduTextView);
         TextView currentTextView=convertView.findViewById(R.id.currentEduTextView);
 
-        schoolTextView.setText(school);
-        deegreeTextView.setText(deegree);
-        fromTextView.setText(from);
-        toTextView.setText(to);
-        if(current==false) currentTextView.setText("no");
-        else currentTextView.setText("yes");
+        schoolTextView.setText("School "+school);
+        deegreeTextView.setText("Deegree "+deegree);
+        fromTextView.setText("From "+formatDate(from));
+        toTextView.setText("To "+to);
+        if(current==false) currentTextView.setText("Current: no");
+        else currentTextView.setText("Current: yes");
 
         //editImageView=convertView.findViewById(R.id.editImageV);
         deleteImageView=convertView.findViewById(R.id.deleteImageV);
@@ -118,6 +121,17 @@ public class EducationEditListAdapter extends ArrayAdapter<UserEducation>{
     public interface EditEducationAdapterCallback{
         //public void editEduInProfile(UserEducation userEducation);
         public void  deleteEduFromProfile(String userId);
+    }
+
+    private String formatDate(String enterDate){
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(enterDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String formattedDate = new SimpleDateFormat("dd/MM/yyyy, Ka").format(date);
+        return formattedDate;
     }
 
 

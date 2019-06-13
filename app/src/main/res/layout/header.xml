@@ -5,6 +5,13 @@
     android:background="@color/design_default_color_primary"
     android:padding="20sp">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Social Portal"
+        android:textColor="@color/white" />
+
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/avatarImageView"
         android:layout_width="80dp"
@@ -15,7 +22,6 @@
         android:id="@+id/usernameTextView"
         android:layout_width="82dp"
         android:layout_height="wrap_content"
-        android:text="Name"
         android:textColor="@color/white"
         android:textStyle="bold" />
 

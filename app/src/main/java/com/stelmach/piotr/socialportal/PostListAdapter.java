@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.stelmach.piotr.socialportal.Models.Post;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class PostListAdapter extends ArrayAdapter<Post> {
@@ -46,10 +49,21 @@ public class PostListAdapter extends ArrayAdapter<Post> {
         String avatarNormal=avatar.substring(2);
         Picasso.get().load("http://"+avatarNormal).resize(80,80).into(avatarIV);
         textTV.setText(text);
-        dateTV.setText(date);
+        dateTV.setText(formatDate(date));
 
 
         return convertView;
 
+    }
+
+    private String formatDate(String enterDate){
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(enterDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String formattedDate = new SimpleDateFormat("dd/MM/yyyy, Ka").format(date);
+        return formattedDate;
     }
 }

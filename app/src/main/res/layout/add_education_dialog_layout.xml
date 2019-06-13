@@ -34,7 +34,7 @@
         android:hint="Deegree"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/schoolAddText" />
 
@@ -71,45 +71,40 @@
         android:id="@+id/toDateAdd"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="To YYYY-MM-DD"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.298"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fromDateAdd" />
+        tools:layout_editor_absoluteX="84dp"
+        tools:layout_editor_absoluteY="304dp" />
 
     <CheckBox
         android:id="@+id/currentCheckBoxAdd"
         android:layout_width="85dp"
         android:layout_height="41dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="Current"
         app:layout_constraintBottom_toTopOf="@+id/descriptionAddEdu"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.151"
-        app:layout_constraintStart_toEndOf="@+id/toDateAdd"
-        app:layout_constraintTop_toBottomOf="@+id/fromDateAdd"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toDateAdd"
+        app:layout_constraintVertical_bias="0.428" />
 
     <EditText
         android:id="@+id/descriptionAddEdu"
         android:layout_width="234dp"
         android:layout_height="113dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="44dp"
         android:ems="10"
         android:hint="Description"
         android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toDateAdd" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

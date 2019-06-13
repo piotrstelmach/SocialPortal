@@ -70,7 +70,7 @@
 
         <TextView
             android:id="@+id/currentEduTextView"
-            android:layout_width="48dp"
+            android:layout_width="111dp"
             android:layout_height="22dp"
             android:layout_marginStart="8dp"
 
